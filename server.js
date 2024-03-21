@@ -8,6 +8,8 @@ const ACTIONS = require('./src/Actions');
 const server = http.createServer(app);
 const io = new Server(server);
 
+
+
 app.use(express.static('build'));
 app.use((req, res, next) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
@@ -27,7 +29,6 @@ function getAllConnectedClients(roomId) {
 }
 
 io.on('connection', (socket) => {
-    console.log('socket connected', socket.id);
 
     socket.on(ACTIONS.JOIN, ({ roomId, username }) => {
         userSocketMap[socket.id] = username;
@@ -62,6 +63,10 @@ io.on('connection', (socket) => {
         socket.leave();
     });
 });
+
+app.get("/hearbeat" , (req,res)=>{
+    res.json({msg : "running"})
+})
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));

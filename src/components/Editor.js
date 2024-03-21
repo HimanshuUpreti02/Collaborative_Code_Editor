@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import Codemirror from 'codemirror';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/dracula.css';
-import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/clike/clike';
 import 'codemirror/addon/edit/closetag';
 import 'codemirror/addon/edit/closebrackets';
 import ACTIONS from '../Actions';
@@ -14,13 +14,14 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
             editorRef.current = Codemirror.fromTextArea(
                 document.getElementById('realtimeEditor'),
                 {
-                    mode: { name: 'javascript', json: true },
+                    mode: "text/x-c++src",
                     theme: 'dracula',
                     autoCloseTags: true,
                     autoCloseBrackets: true,
                     lineNumbers: true,
                 }
             );
+            editorRef.current.getWrapperElement().style.fontSize = "16px"
 
             editorRef.current.on('change', (instance, changes) => {
                 const { origin } = changes;
